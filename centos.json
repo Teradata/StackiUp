@@ -1,0 +1,38 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+        "scripts/vagrant.sh",
+        "scripts/vboxguest.sh"
+        ]
+    }
+  ],
+  "builders": [
+  {
+    "boot_command": [
+      "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "http_directory": "http",
+    "disk_size": 88000,
+    "guest_additions_path": "VBoxGuestAdditions.iso",
+    "guest_os_type": "RedHat_64",
+    "iso_url": "./isos/CentOS-7-x86_64-Everything-1511.iso",
+    "iso_checksum": "dba29c59117400b111633be2bf2aaf0e",
+    "iso_checksum_type": "md5",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "2048"]
+    ],
+    "ssh_username": "root",
+    "ssh_password": "root",
+    "ssh_wait_timeout": "20m",
+    "ssh_pty": "true",
+    "shutdown_command": "echo 'root' | sudo -S shutdown -P now",
+    "type": "virtualbox-iso"
+  }],
+  "post-processors": [
+  {
+    "type": "vagrant",
+    "output": "Centos.7-{{ .Provider }}.box"
+  }]
+}
