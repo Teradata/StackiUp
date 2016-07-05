@@ -22,7 +22,7 @@ The install should take a few minutes (as they do...).  It's possible that Packe
 ## Vagrant
 Once the build completes successfully, you can add your shiny new box to Vagrant!  The box output by Packer will be called something like `./Centos.7-virtualbox.box`.
 
-    $ vagrant box add --name bsanders/centos7 Centos.7-virtualbox.box
+    $ vagrant box add --name stacki/centos7 Centos.7-virtualbox.box
 
 You can set name to whatever you like.  Whatever you called it, open up `./Vagrantfile` and change the following line to reflect the name you chose:
 
