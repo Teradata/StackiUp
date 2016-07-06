@@ -37,8 +37,9 @@ Vagrant.configure(2) do |config|
  
   end
 
-  # connect the stacki src dir, if defined
+  # if defined, connect the stacki src dir, and forward SSH
   if src_enabled?
+    config.ssh.forward_agent = true
     config.vm.synced_folder ENV['STACKI_SRC'], "/export/src/"
   end
 
