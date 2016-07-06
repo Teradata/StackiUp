@@ -7,6 +7,11 @@ def gui_enabled?
   !ENV.fetch('GUI', '').empty?
 end
 
+# optionally connect the VM to a src dir. set STACKI_SRC=/PATH/TO/SRC/
+def src_enabled?
+  !ENV.fetch('STACKI_SRC', '').empty?
+end
+
 # stacki has some minimum requirements above what's provided by most vagrant boxes
 # this includes 2gb of ram, 64GB of disk, and a dedicated non-NAT nic
 # for details, see https://github.com/StackIQ/stacki/wiki/Frontend-Installation 
@@ -30,6 +35,11 @@ Vagrant.configure(2) do |config|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = gui_enabled?
  
+  end
+
+  # connect the stacki src dir, if defined
+  if src_enabled?
+    config.vm.synced_folder ENV['STACKI_SRC'], "/export/src/"
   end
 
   # VM provisioning #
