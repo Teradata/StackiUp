@@ -13,7 +13,7 @@ def src_enabled?
 end
 
 # stacki has some minimum requirements above what's provided by most vagrant boxes
-# this includes 2gb of ram, 64GB of disk, and a dedicated non-NAT nic
+# this includes >2gb of ram, 64GB of disk, and a dedicated non-NAT nic
 # for details, see https://github.com/StackIQ/stacki/wiki/Frontend-Installation 
 
 backend_network = '10.168.42.'
@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"
+    vb.memory = "3072"
 
     # give the VM a pretty name in VBox Manager
     time = Time.new

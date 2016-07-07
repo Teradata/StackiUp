@@ -21,7 +21,7 @@
     "iso_checksum": "dba29c59117400b111633be2bf2aaf0e",
     "iso_checksum_type": "md5",
     "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "2048"]
+      ["modifyvm", "{{.Name}}", "--memory", "3072"]
     ],
     "ssh_username": "root",
     "ssh_password": "root",

@@ -22,7 +22,7 @@ count=$1
 
 make_vm() {
 	NAME=compute-$1
-	MEMSIZE=2400
+	MEMSIZE=3072
 
 	VBoxManage createvm --name $NAME --register
 	if [ $? -ne 0 ]; then
