@@ -2,4 +2,4 @@
 *.box
 packer_cache/
 .vagrant/*
-
+builds/
