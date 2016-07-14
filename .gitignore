@@ -1,4 +1,6 @@
 *pyc
+.DS_Store
+*.swp
 *.box
 packer_cache/
 .vagrant/*
