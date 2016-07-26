@@ -16,13 +16,27 @@ end
 # this includes >2gb of ram, 64GB of disk, and a dedicated non-NAT nic
 # for details, see https://github.com/StackIQ/stacki/wiki/Frontend-Installation 
 
-backend_network = '10.168.42.'
+# Adjust the VM networking based on the contents of site.attrs
+mac_addr = ''
+ip_addr = ''
+iface = ''
+
+File.open("./http/site.attrs").each_line do |line|
+  key, value = line.split(':', 2)
+  if key == "Kickstart_PrivateEthernet"
+    mac_addr = value.strip
+  elsif key == "Kickstart_PrivateAddress"
+    ip_addr = value.strip
+  elsif key == "Kickstart_PrivateInterface"
+    iface = value.strip
+  end
+end
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "stacki/centos7"
+  config.vm.box = "stacki/stackios"
 
   # Add a nic for a backend install network
-  config.vm.network "private_network", ip: backend_network + "101", :mac => "0800d00dc189"
+  config.vm.network "private_network", ip: ip_addr, :mac => mac_addr.tr(':', '')
 
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
@@ -37,19 +51,21 @@ Vagrant.configure(2) do |config|
  
   end
 
-  # if defined, connect the stacki src dir, and forward SSH
+  # if defined, connect the stacki src dir, and forward the SSH agent
   if src_enabled?
     config.ssh.forward_agent = true
     config.vm.synced_folder ENV['STACKI_SRC'], "/export/src/"
   end
 
-  # VM provisioning #
-
-  # vagrant will insert the vagrant/ruby variable backend_network as a shell variable
-  config.vm.provision "shell", env: {"backend_network" => backend_network}, inline: <<-SHELL
-    sed -i -r "s/BACKEND_NETWORK_ADDRESS/$backend_network/" /vagrant/vagrant_provisioning/site.attrs
+  # fix the VM networking to reflect what's in site.attrs
+  # note that we actually changed the MAC of that NIC above, so we want to match here
+  # and delete any references to overriding it in software ('macaddr=')
+  config.vm.provision "shell", env: {"iface" => iface, "new_mac" => mac_addr}, inline: <<-SHELL
+    ifdown ${iface}
+    sed -i -r "s/HWADDR=.*$/HWADDR=${new_mac}/" /etc/sysconfig/network-scripts/ifcfg-${iface}
+    sed -i -r "s/MACADDR=.*$/HWADDR=${new_mac}/" /etc/sysconfig/network-scripts/ifcfg-${iface}
+    ifup ${iface}
   SHELL
 
-  # finally, install stacki!
-  config.vm.provision :shell, path: "vagrant_provisioning/do_stacki3.2.sh"
+
 end
