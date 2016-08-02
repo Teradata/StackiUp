@@ -2,7 +2,7 @@
 
 StackUp is a collection of files to create a complete virtual Stacki environment, based around common devops tools such as Packer, Vagrant and VirtualBox.
 
-Stacki has greater software requirements than typical Vagrant boxes offer, and as such you're best off using our purpose-built Vagrant box <available on S3>, as opposed to using one of the popular ones found online.
+Stacki has greater software requirements than typical Vagrant boxes offer, and as such you're best off using our purpose-built Vagrant box {{available on S3}}, as opposed to using one of the popular ones found online.  Building your own Vagrant box from our template should be possible in the next release of Stacki -- see the FAQ at the bottom.
 
 > On Dependencies: If you don't have Vagrant and VirtualBox installed, you'll need these, of course.  On MacOSX, homebrew has vagrant, otherwise you can find it at [VagrantUp.com](http://vagrantup.com).
 
@@ -23,10 +23,12 @@ Once you're satisfied with the Vagrantfile, run Vagrant.
 
 Again, this will take a minute (but not much more than that) as it builds the VM around the box we created.  Go grab a coffee.  You deserve it.
 
-Once it comes back up, `vagrant ssh` will bring you into your new virtual Stacki Frontend machine.  If you're not familiar with Vagrant, take a peak at `/vagrant/` inside the VM and you'll see what has been our working directory up until now.  Vagrant automatically sets up a number of things on the guest VM (including the ssh keys and port forwarding) and these shared guest folders are one of them.  This will come in handy in a minute.
+By default Vagrant machines run in headless mode to stay out of your way.  Vagrant also automatically sets up a number of things on the guest VM, including the ssh keys and port forwarding.
+
+Once it comes back up, `vagrant ssh` will bring you into your new virtual Stacki Frontend machine.  If you're not familiar with Vagrant, take a peak at `/vagrant/` inside the VM and you'll see what has been our working directory up until now.  This is a shared guest folder Vagrant has set up to allow you to easily interact with files on both the host and the VM.  This will come in handy in a minute.
 
 ## VirtualBox
-If you're in the VM environment, `exit` to get back to our host machine.  Looking around our working directory, you'll see a script called `create_backend_machines.sh`.  Run that, with some number of VM's you'd like to create.
+If you're in the VM environment, `exit` to get back to our host machine.  Looking around our working directory, you'll see a script called `create_backend_machines.sh`.  Run that, with some number of VM's you'd like to create (keeping in mind the physical limitations of your hardware!).
 
     $ create_backend_machines.sh 3
 
@@ -34,13 +36,11 @@ This wraps around VirtualBox's `VBoxManage` CLI utility, pokes inside our shiny 
 
     $ cat hostfile.csv 
     Name,Appliance,Rack,Rank,IP,MAC,Interface,Network,Default
-    compute-0,backend,0,0,__IPADDRESS__,08:00:27:97:2D:56,eth0,private,True
-    compute-1,backend,0,1,__IPADDRESS__,08:00:27:1A:C5:C3,eth0,private,True
-    compute-2,backend,0,2,__IPADDRESS__,08:00:27:27:D9:90,eth0,private,True
+    compute-0,backend,0,0,192.168.42.100,08:00:27:97:2D:56,eth0,private,True
+    compute-1,backend,0,1,192.168.42.101,08:00:27:1A:C5:C3,eth0,private,True
+    compute-2,backend,0,2,192.168.42.102,08:00:27:27:D9:90,eth0,private,True
 
-The only thing you need to do is edit the IP address column (in a future release, we might automatically add these as well).
-
-If you haven't edited any files along the way, by default (as of this writing!) our Vagrant-installed Frontend sits at _192.168.42.10_.  Just make your life a little bit easier and number them .151-.15_N_.
+If you haven't edited any files along the way, by default (as of this writing!) our Vagrant-installed Frontend sits at _192.168.42.10_.
 
 > PS: If you don't use this script to make your backend VM's, be sure to check the Stacki wiki on Github for the minimum "hardware" requirements for backend nodes!  Mysterious and puzzling things can happen if you try to make backend nodes too small.
 
@@ -82,19 +82,19 @@ __Kicking the tires__.  Stacki-as-open-source is fairly new, so many people don'
 
 __Automation of testing__.  With StackUp, a configuration management tool such as Ansible, and a little bit of scripting, you should be able to test infrastructure changes.  Internally, Stacki developers should be able to pair the above with a Continuous Integration tool to help speed up some of our pre-release integration tests, which means more Stacki for you, Dear Reader.
 
-__Ease of development__.  Obviously helpful more for developers, but the ability to skip the install saves time.  Vagrant also provides several time-saving features.  It uses SSH keys for logging into the VM, forwards ports, and shares folders between host and VM.  These features can be extended easily in the Vagrantfile, for example if you need an additional port forwarded, or other shared folders.
+__Ease of development__.  Obviously helpful more for developers, but the ability to skip the install saves time.  Vagrant also provides several time-saving features.  It runs VMs in headless mode by default.  It uses SSH keys for logging into the VM, forwards ports, and shares folders between host and VM.  These features can be easily extended in the Vagrantfile, for example if you need an additional port forwarded, or other shared folders.
 
-__Running your whole infrastructure__.  Are you crazy?
+__Running your whole enterprise infrastructure__.  Are you crazy?
 
 
 ### Limitations
 
 * Currently, StackUp focuses only on VirtualBox.  As such, it borrows some of that tool's own limitations (you can't have nested VM's, for example).  Other hypervisors should be possible (Packer and Vagrant support several), but are unplanned.
-* StackUp relies on a unreleased development of StackiOS because it requires a modification to the Anaconda installer.  The changes are in upstream Stacki already and will be in the next release.
+* StackUp relies on an unreleased development version of StackiOS because it requires a modification to the Anaconda installer.  The changes are in upstream Stacki already and will be in the next release.
 
 ### TODO
 
-* Release the next version of Stacki so people can spin up their own Vagrant boxes!  In the meantime, you can still use our lovingly crafted Vagrant box, by downloading it from this link: `<<STACKIOS VAGRANT BOX>>`
+* Release the next version of Stacki so people can spin up their own Vagrant boxes using Packer!  In the meantime, you can still use our lovingly crafted Vagrant box, by downloading it from this link: `<<STACKIOS VAGRANT BOX>>`
 
 ### FAQ
 
@@ -104,7 +104,7 @@ Remember that Stacki is a tool designed for provisioning nodes on a *very* large
 
 * "I want to customize the StackUp install to use a different network."
 
-See the above TODO note about changes required to the installer.  When the next version of Stacki is released, you'll be able to use the `mk_stack_attrs.py` script to set whatever modifications you need prior to running Packer.
+See the above TODO note about changes required to the installer.  When the next version of Stacki is released, you'll be able to use the `stack_adder.py` script to set whatever modifications you need prior to running Packer.
 
 * "I want to change the password!"
 
@@ -115,3 +115,19 @@ Otherwise, see the previous FAQ about changing networking.  When the next Stacki
 * "Can you add SUPER\_IMPORTANT\_FEATURE?"
 
 I dunno, probably, but probably not right away.  But, once the next version of StackiOS is released all the bits are out there, so if you have a specific need and a patch that looks good, we can probably merge it.
+
+* The Vagrant Stacki Frontend comes up, and everything looks right, but my backend nodes won't DHCP boot.
+
+Stacki Frontends run their own DHCP server, but VirtualBox tries do to this as well.  You can run `VBoxManage list hostonlyifs` and check that the DHCP server is disabled for that virtual network.
+
+However, it's possible VBox didn't kill its server and is *still running a DHCP server on that network anyway*.  Running `ps aux | grep -i vb | grep -i dhcp` should show any DHCP processes that VBox might still be running.  I found a running a DHCP server on vboxnet0 serving in the range 192.168.56.0 (which was weird, as I changed vboxnet0 to 192.168.42.0).  At any rate, killing that process and rebooting my backend nodes allowed them to boot.
+
+* "Something else isn't working."
+
+Again, totally possible it's a bug in StackUp (there's a lot of moving parts here), but at the time of this writing, the most recent versions of VirtualBox (5.1) and Vagrant (1.8.5) both have significant regressions for this workflow.  If you run into issues (particularly with networking/ssh), drop back to VBox 5.0.x and Vagrant 1.8.4, if at all possible.  The issues in Vagrant at least are supposed to be fixed in 1.8.6.  For what it's worth, this project was developed on MacOSX 11.4, with VBox 5.0.18 and Vagrant 1.8.1.
+
+> [Vagrant #7648](https://github.com/mitchellh/vagrant/issues/7648)
+
+> [Vagrant #7667](https://github.com/mitchellh/vagrant/issues/7667)
+
+> [VBox #15705](https://www.virtualbox.org/ticket/15705)
