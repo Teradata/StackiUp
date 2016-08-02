@@ -26,6 +26,7 @@
       " <enter><wait>"
     ],
     "http_directory": "http",
+    "headless": "true",
     "disk_size": 88000,
     "guest_additions_path": "VBoxGuestAdditions.iso",
     "guest_os_type": "RedHat_64",
@@ -36,7 +37,7 @@
       ["modifyvm", "{{.Name}}", "--memory", "3072"],
       ["modifyvm", "{{.Name}}", "--nic2", "hostonly"],
       ["modifyvm", "{{.Name}}", "--nictype2", "82540EM"],
-      ["modifyvm", "{{.Name}}", "--hostonlyadapter2", "vboxnet1"],
+      ["modifyvm", "{{.Name}}", "--hostonlyadapter2", "vboxnet0"],
       ["modifyvm", "{{.Name}}", "--macaddress2", "0800d00dc189"]
     ],
     "ssh_username": "root",
