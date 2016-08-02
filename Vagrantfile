@@ -21,7 +21,11 @@ mac_addr = ''
 ip_addr = ''
 iface = ''
 
-File.open("./http/site.attrs").each_line do |line|
+# grab it from http or cwd
+attrs_file = 'http/site.attrs' if File.file?('http/site.attrs')
+attrs_file = 'site.attrs' if File.file?('site.attrs')
+
+File.open(attrs_file).each_line do |line|
   key, value = line.split(':', 2)
   if key == "Kickstart_PrivateEthernet"
     mac_addr = value.strip
