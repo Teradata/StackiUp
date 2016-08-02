@@ -71,5 +71,7 @@ Vagrant.configure(2) do |config|
     ifup ${iface}
   SHELL
 
+  # make it easy to extend
+  config.vm.provision "shell", path: "scripts/local.sh"
 
 end
