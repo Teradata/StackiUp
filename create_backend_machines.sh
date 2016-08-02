@@ -21,7 +21,8 @@ fi
 count=$1
 
 make_vm() {
-	NAME=compute-$1
+	vm_number=$1
+	NAME=compute-$vm_number
 	MEMSIZE=3072
 
 	VBoxManage createvm --name $NAME --register
@@ -46,7 +47,12 @@ make_vm() {
 	# heinous sed thing to put the colons back in
 	macaddress=`VBoxManage showvminfo $NAME --machinereadable | grep macaddress1`
 	macaddress=`echo $macaddress | sed -n -E "s/macaddress1=\"(.*)\"/\1/p" | sed -e 's/\([0-9A-Fa-f]\{2\}\)/\1:/g' -e 's/\(.*\):$/\1/'`
-	echo ${NAME},backend,0,${i},__IPADDRESS__,${macaddress},eth0,private,True >> hostfile.csv
+
+	# make a reasonable guess about the IP address
+	ip_address=${VAGRANT_BACKEND_NETWORK_IP}.$((vm_number+100))
+
+	# add the line to the hostfile
+	echo ${NAME},backend,0,${i},${ip_address},${macaddress},eth0,private,True >> hostfile.csv
 
 	# storage settings
 	VBoxManage storagectl $NAME --name SATA --add sata --controller IntelAhci \
@@ -72,6 +78,10 @@ fi
 
 VAGRANT_VM_UUID=`cat ./.vagrant/machines/default/virtualbox/id`
 VAGRANT_BACKEND_NETWORK=`VBoxManage showvminfo ${VAGRANT_VM_UUID} --machinereadable | sed -n -E "s/hostonlyadapter.*=\"(.*)\"/\1/p" `
+
+# TODO only applies if /24...
+VAGRANT_BACKEND_NETWORK_IP=`VBoxManage list --long hostonlyifs | tr -d ' ' | grep -A4 "Name:${VAGRANT_BACKEND_NETWORK}" | grep IPAddress: | cut -d":" -f2 | cut -d"." -f1-3`
+
 
 rm -f hostfile.csv
 echo Name,Appliance,Rack,Rank,IP,MAC,Interface,Network,Default >> hostfile.csv
