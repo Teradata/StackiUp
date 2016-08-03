@@ -22,7 +22,7 @@ count=$1
 
 make_vm() {
 	vm_number=$1
-	NAME=compute-$vm_number
+	NAME=backend-$vm_number
 	MEMSIZE=3072
 
 	VBoxManage createvm --name $NAME --register

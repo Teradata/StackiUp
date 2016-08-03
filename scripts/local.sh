@@ -1,5 +1,7 @@
 #! /bin/bash -x
 
+# note, this script is called by Vagrant, not Packer
+
 # define your own provisioning stuff here, to run at the tail end of 'vagrant up'
 # note that this script must return 0, either explicitly or implicitly, otherwise vagrant up will fail
 

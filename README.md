@@ -21,7 +21,7 @@ Once you're satisfied with the Vagrantfile, run Vagrant.
 
     $ vagrant up
 
-Again, this will take a minute (but not much more than that) as it builds the VM around the box we created.  Go grab a coffee.  You deserve it.
+This will take a minute (but not much more than that) as it builds the VM around the box we created.  Go grab a coffee.  You deserve it.
 
 By default Vagrant machines run in headless mode to stay out of your way.  Vagrant also automatically sets up a number of things on the guest VM, including the ssh keys and port forwarding.
 
@@ -36,9 +36,9 @@ This wraps around VirtualBox's `VBoxManage` CLI utility, pokes inside our shiny 
 
     $ cat hostfile.csv 
     Name,Appliance,Rack,Rank,IP,MAC,Interface,Network,Default
-    compute-0,backend,0,0,192.168.42.100,08:00:27:97:2D:56,eth0,private,True
-    compute-1,backend,0,1,192.168.42.101,08:00:27:1A:C5:C3,eth0,private,True
-    compute-2,backend,0,2,192.168.42.102,08:00:27:27:D9:90,eth0,private,True
+    backend-0,backend,0,0,192.168.42.100,08:00:27:97:2D:56,eth0,private,True
+    backend-1,backend,0,1,192.168.42.101,08:00:27:1A:C5:C3,eth0,private,True
+    backend-2,backend,0,2,192.168.42.102,08:00:27:27:D9:90,eth0,private,True
 
 If you haven't edited any files along the way, by default (as of this writing!) our Vagrant-installed Frontend sits at _192.168.42.10_.
 
@@ -57,9 +57,9 @@ Remember the shared guest folder, `/vagrant/`?  Guess what, since we created the
     $ stack list host
     HOST            RACK RANK CPUS APPLIANCE BOX     ENVIRONMENT RUNACTION INSTALLACTION
     stackifrontend: 0    0    1    frontend  default ----------- os        install      
-    compute-0:      0    0    1    backend   default ----------- os        install      
-    compute-1:      0    1    1    backend   default ----------- os        install      
-    compute-2:      0    2    1    backend   default ----------- os        install      
+    backend-0:      0    0    1    backend   default ----------- os        install      
+    backend-1:      0    1    1    backend   default ----------- os        install      
+    backend-2:      0    2    1    backend   default ----------- os        install      
 
 Our Vagrant VM's peers are now added to Stacki's database, and we can manage them from inside our VM.  Set them to install:
 
@@ -68,7 +68,7 @@ Our Vagrant VM's peers are now added to Stacki's database, and we can manage the
 
 ... and start them up in Virtualbox on your host machine.
 
-After a few minutes, you'll have an additional _N_ backend/compute nodes deployed.  Congratulations, you've got a working Stacki install!
+After a few minutes, you'll have an additional _N_ backend nodes deployed.  Congratulations, you've got a working Stacki install!
 
 Now you're free to go find (or create!) additional Stacki Pallets, to allow for more complex deployments.  For example, you can add the CentOS Everything ISO as a pallet to give your backend nodes access to all of the packages available there.
 
