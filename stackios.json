@@ -35,9 +35,8 @@
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "vboxmanage": [
       ["modifyvm", "{{.Name}}", "--memory", "3072"],
-      ["modifyvm", "{{.Name}}", "--nic2", "hostonly"],
+      ["modifyvm", "{{.Name}}", "--nic2", "intnet"],
       ["modifyvm", "{{.Name}}", "--nictype2", "82540EM"],
-      ["modifyvm", "{{.Name}}", "--hostonlyadapter2", "vboxnet0"],
       ["modifyvm", "{{.Name}}", "--macaddress2", "0800d00dc189"]
     ],
     "ssh_username": "root",
