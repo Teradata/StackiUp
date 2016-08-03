@@ -1,6 +1,6 @@
-# StackUp
+# StackiUp
 
-StackUp is a collection of files to create a complete virtual Stacki environment, based around common devops tools such as Packer, Vagrant and VirtualBox.
+StackiUp is a collection of files to create a complete virtual Stacki environment, based around common devops tools such as Packer, Vagrant and VirtualBox.
 
 Stacki has greater software requirements than typical Vagrant boxes offer, and as such you're best off using our purpose-built Vagrant box {{available on S3}}, as opposed to using one of the popular ones found online.  Building your own Vagrant box from our template should be possible in the next release of Stacki -- see the FAQ at the bottom.
 
@@ -49,9 +49,9 @@ Go back into the Vagrant instance:
 
     $ vagrant ssh
 
-Remember the shared guest folder, `/vagrant/`?  Guess what, since we created the hostfile in the current working directory, our `hostfile.csv` kicksheet is accessible in our VM too.  From here, we can load the hostfile into Stacki.  StackUp helpfully created a vagrant user, and gave them sudo permissions inside the VM.
+Remember the shared guest folder, `/vagrant/`?  Guess what, since we created the hostfile in the current working directory, our `hostfile.csv` kicksheet is accessible in our VM too.  From here, we can load the hostfile into Stacki.  StackiUp helpfully created a vagrant user, and gave them sudo permissions inside the VM.
 
-> It's worth mentioning that if needed the root password in our StackUp repo defaults to 'password'.  See the FAQ about changing it.
+> It's worth mentioning that if needed the root password in our StackiUp repo defaults to 'password'.  See the FAQ about changing it.
 
     $ sudo -i stack load hostfile file=/vagrant/hostfile.csv
     $ stack list host
@@ -78,9 +78,9 @@ When you're tired of it (or you broke something -- hey, it happens), you can exi
 
 ### Uses (aka, why?)
 
-__Kicking the tires__.  Stacki-as-open-source is fairly new, so many people don't yet know what you can do with it.  StackUp gives you a chance to play with Stacki from the convenience of your (admittedly somewhat beefy) laptop.
+__Kicking the tires__.  Stacki-as-open-source is fairly new, so many people don't yet know what you can do with it.  StackiUp gives you a chance to play with Stacki from the convenience of your (admittedly somewhat beefy) laptop.
 
-__Automation of testing__.  With StackUp, a configuration management tool such as Ansible, and a little bit of scripting, you should be able to test infrastructure changes.  Internally, Stacki developers should be able to pair the above with a Continuous Integration tool to help speed up some of our pre-release integration tests, which means more Stacki for you, Dear Reader.
+__Automation of testing__.  With StackiUp, a configuration management tool such as Ansible, and a little bit of scripting, you should be able to test infrastructure changes.  Internally, Stacki developers should be able to pair the above with a Continuous Integration tool to help speed up some of our pre-release integration tests, which means more Stacki for you, Dear Reader.
 
 __Ease of development__.  Obviously helpful more for developers, but the ability to skip the install saves time.  Vagrant also provides several time-saving features.  It runs VMs in headless mode by default.  It uses SSH keys for logging into the VM, forwards ports, and shares folders between host and VM.  These features can be easily extended in the Vagrantfile, for example if you need an additional port forwarded, or other shared folders.
 
@@ -89,8 +89,8 @@ __Running your whole enterprise infrastructure__.  Are you crazy?
 
 ### Limitations
 
-* Currently, StackUp focuses only on VirtualBox.  As such, it borrows some of that tool's own limitations (you can't have nested VM's, for example).  Other hypervisors should be possible (Packer and Vagrant support several), but are unplanned.
-* StackUp relies on an unreleased development version of StackiOS because it requires a modification to the Anaconda installer.  The changes are in upstream Stacki already and will be in the next release.
+* Currently, StackiUp focuses only on VirtualBox.  As such, it borrows some of that tool's own limitations (you can't have nested VM's, for example).  Other hypervisors should be possible (Packer and Vagrant support several), but are unplanned.
+* StackiUp relies on an unreleased development version of StackiOS because it requires a modification to the Anaconda installer.  The changes are in upstream Stacki already and will be in the next release.
 
 ### TODO
 
@@ -102,7 +102,7 @@ __Running your whole enterprise infrastructure__.  Are you crazy?
 
 Remember that Stacki is a tool designed for provisioning nodes on a *very* large scale.  It is possible you've found a bug, but before letting us know, please be sure to check the minimum hardware requirements for [Frontend](https://github.com/StackIQ/stacki/wiki/Frontend-Installation#requirements) and [Backend](https://github.com/StackIQ/stacki/wiki/Backend-Installation#requirements) VM's all meet them.
 
-* "I want to customize the StackUp install to use a different network."
+* "I want to customize the StackiUp install to use a different network."
 
 See the above TODO note about changes required to the installer.  When the next version of Stacki is released, you'll be able to use the `stack_adder.py` script to set whatever modifications you need prior to running Packer.
 
@@ -124,7 +124,7 @@ However, it's possible VBox didn't kill its server and is *still running a DHCP 
 
 * "Something else isn't working."
 
-Again, totally possible it's a bug in StackUp (there's a lot of moving parts here), but at the time of this writing, the most recent versions of VirtualBox (5.1) and Vagrant (1.8.5) both have significant regressions for this workflow.  If you run into issues (particularly with networking/ssh), drop back to VBox 5.0.x and Vagrant 1.8.4, if at all possible.  The issues in Vagrant at least are supposed to be fixed in 1.8.6.  For what it's worth, this project was developed on MacOSX 11.4, with VBox 5.0.18 and Vagrant 1.8.1.
+Again, totally possible it's a bug in StackiUp (there's a lot of moving parts here), but at the time of this writing, the most recent versions of VirtualBox (5.1) and Vagrant (1.8.5) both have significant regressions for this workflow.  If you run into issues (particularly with networking/ssh), drop back to VBox 5.0.x and Vagrant 1.8.4, if at all possible.  The issues in Vagrant at least are supposed to be fixed in 1.8.6.  For what it's worth, this project was developed on MacOSX 11.4, with VBox 5.0.18 and Vagrant 1.8.1.
 
 > [Vagrant #7648](https://github.com/mitchellh/vagrant/issues/7648)
 
