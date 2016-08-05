@@ -2,26 +2,22 @@
 
 StackiUp is a collection of files to create a complete virtual Stacki environment, based around common devops tools such as Packer, Vagrant and VirtualBox.
 
-Stacki has greater software requirements than typical Vagrant boxes offer, and as such you're best off using our purpose-built Vagrant box {{available on S3}}, as opposed to using one of the popular ones found online.  Building your own Vagrant box from our template should be possible in the next release of Stacki -- see the FAQ at the bottom.
+Stacki has greater software requirements than typical Vagrant boxes offer, and as such you're best off using our purpose-built Vagrant box available on S3, as opposed to using one of the popular ones found online.  Building your own Vagrant box from our template should be possible in the next release of Stacki -- see the FAQ at the bottom.
 
 > On Dependencies: If you don't have Vagrant and VirtualBox installed, you'll need these, of course.  On MacOSX, homebrew has vagrant, otherwise you can find it at [VagrantUp.com](http://vagrantup.com).
 
 See the end of the document for known issues, TODO, advanced topics, etc.
 
 ## Vagrant
-Once you've downloaded your shiny new Vagrant box, you need to add it to Vagrant!
+Before you can use our Vagrant box, you'll need to download and add it to Vagrant!  Vagrant can do this all in one command:
 
-    $ vagrant box add --name stacki/stackios ./builds/StackiOS-3.2.1-7.x-virtualbox.box
+    $ vagrant box add http://stacki.s3.amazonaws.com/public/vm/vagrant/stackibox.json
 
-You can set the name to whatever you like.  If you picked something other than 'stacki/stackios', open up `./Vagrantfile` and change the following line to reflect the name you chose:
-
-      config.vm.box = "stacki/stackios"
-
-Once you're satisfied with the Vagrantfile, run Vagrant.
+It's a sizeable download (~2.5 GB), but it's super worth it, I promise.  Anyway, go grab a coffee.
 
     $ vagrant up
 
-This will take a minute (but not much more than that) as it builds the VM around the box we created.  Go grab a coffee.  You deserve it.
+This will take a minute (but not much more than that) as it builds the VM around the box we created.
 
 By default Vagrant machines run in headless mode to stay out of your way.  Vagrant also automatically sets up a number of things on the guest VM, including the ssh keys and port forwarding.
 
@@ -94,7 +90,7 @@ __Running your whole enterprise infrastructure__.  Are you crazy?
 
 ### TODO
 
-* Release the next version of Stacki so people can spin up their own Vagrant boxes using Packer!  In the meantime, you can still use our lovingly crafted Vagrant box, by downloading it from this link: `<<STACKIOS VAGRANT BOX>>`
+* Release the next version of Stacki so people can spin up their own Vagrant boxes using Packer!  In the meantime, you can still use our lovingly crafted Vagrant box by pointing vagrant at our catalog file: [stackibox.json](http://stacki.s3.amazonaws.com/public/vm/vagrant/stackibox.json)
 
 ### FAQ
 
