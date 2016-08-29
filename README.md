@@ -21,7 +21,7 @@ This will take a minute (but not much more than that) as it builds the VM around
 
 By default Vagrant machines run in headless mode to stay out of your way.  Vagrant also automatically sets up a number of things on the guest VM, including the ssh keys and port forwarding.
 
-Once it comes back up, `vagrant ssh` will bring you into your new virtual Stacki Frontend machine.  If you're not familiar with Vagrant, take a peak at `/vagrant/` inside the VM and you'll see what has been our working directory up until now.  This is a shared guest folder Vagrant has set up to allow you to easily interact with files on both the host and the VM.  This will come in handy in a minute.
+Once it comes back up, `vagrant ssh` will bring you into your new virtual Stacki Frontend machine.  If you're not familiar with Vagrant, take a peek at `/vagrant/` inside the VM and you'll see what has been our working directory up until now.  This is a shared guest folder Vagrant has set up to allow you to easily interact with files on both the host and the VM.  This will come in handy in a minute.
 
 ## VirtualBox
 If you're in the VM environment, `exit` to get back to our host machine.  Looking around our working directory, you'll see a script called `create_backend_machines.sh`.  Run that, with some number of VM's you'd like to create (keeping in mind the physical limitations of your hardware!).
