@@ -20,9 +20,9 @@
   "builders": [
   {
     "boot_command": [
-      "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
-      " stacki.attrs=http://{{ .HTTPIP }}:{{ .HTTPPort }}/site.attrs",
-      " stacki.pallet=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rolls.xml",
+      "<tab> ip=dhcp",
+      " stacki.attrfile=http://{{ .HTTPIP }}:{{ .HTTPPort }}/site.attrs",
+      " stacki.palletfile=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rolls.xml",
       " <enter><wait>"
     ],
     "http_directory": "http",
@@ -34,14 +34,14 @@
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "3072"],
+      ["modifyvm", "{{.Name}}", "--memory", "4096"],
       ["modifyvm", "{{.Name}}", "--nic2", "intnet"],
       ["modifyvm", "{{.Name}}", "--nictype2", "82540EM"],
       ["modifyvm", "{{.Name}}", "--macaddress2", "0800d00dc189"]
     ],
     "ssh_username": "root",
     "ssh_password": "{{user `ssh_password`}}",
-    "ssh_wait_timeout": "25m",
+    "ssh_wait_timeout": "35m",
     "ssh_pty": "true",
     "shutdown_command": "echo 'root' | sudo -S shutdown -P now",
     "type": "virtualbox-iso"
@@ -49,15 +49,15 @@
   "post-processors": [
   {
     "type": "vagrant",
-    "output": "builds/StackiOS-3.3-7.x-{{.Provider}}.box"
+    "output": "builds/stackiup-5.0-7.x-{{.Provider}}.box"
   }],
   "variables": {
     "build_headless": "true",
     "iso_path": "./isos",
-    "iso_name": "stackios-3.3.dev-7.x.x86_64.disk1.iso",
-    "iso_checksum": "a081c9e0fbcf91bdae3fc01780d3d5ff",
+    "iso_name": "stackios-4.0_20170913_9b37901-7.x.x86_64.disk1.iso",
+    "iso_checksum": "5a33490180028685e5092242fe4b9908",
     "iso_checksum_type": "md5",
     "ssh_password": "password",
-    "vbox_dependencies_pallet": "vagrant-deps-3.2-7.x.x86_64.disk1.iso"
+    "vbox_dependencies_pallet": "vbox_deps-4.0_20170727-7.x.x86_64.disk1.iso"
   }
 }

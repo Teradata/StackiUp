@@ -1,6 +1,6 @@
 <rolls>
 
-<roll arch="x86_64" diskid="stacki-os - Disk 1" name="os" url="http://127.0.0.1/mnt/cdrom/" version="7.2" />
-<roll arch="x86_64" diskid="stacki-os - Disk 1" name="stacki" url="http://127.0.0.1/mnt/cdrom/" version="3.3" />
+<roll arch="x86_64" diskid="stacki-os - Disk 1" name="os" url="http://127.0.0.1/mnt/cdrom/" version="4.0_20170814_9d889b0_d69659c" release="7.x"/>
+<roll arch="x86_64" diskid="stacki-os - Disk 1" name="stacki" url="http://127.0.0.1/mnt/cdrom/" version="4.0_20170912_9b37901" release="7.x"/>
 
 </rolls>
